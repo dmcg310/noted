@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
+import { config } from "dotenv";
 import mongoose from "mongoose";
 import NoteModel from "./models/note";
+
+config();
 
 const PORT = 5000;
 const app = express();
@@ -24,11 +27,7 @@ app.post("/notes", async (req: Request, res: Response) => {
 	res.json(createdNote);
 });
 
-const db = mongoose
-	.connect(
-		"mongodb+srv://dmcg310:FEY8mH3o4KVuPEKg@notedcluster.mqsns6i.mongodb.net/?retryWrites=true&w=majority"
-	)
-	.then(() => {
-		app.listen(PORT);
-		console.log(`Server started on port ${PORT}`);
-	});
+const db = mongoose.connect(process.env.MONGO_URL!).then(() => {
+	app.listen(PORT);
+	console.log(`Server started on port ${PORT}`);
+});
