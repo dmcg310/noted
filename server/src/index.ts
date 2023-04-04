@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("/notes", async (req: Request, res: Response) => {
+app.post("/notes/create", async (req: Request, res: Response) => {
 	const note = new NoteModel({
 		title: req.body.title || "",
 		content: req.body.content || "",
@@ -32,6 +32,11 @@ app.get("/notes", async (req: Request, res: Response) => {
 
 app.get("/notes/:id", async (req: Request, res: Response) => {
 	const note = await NoteModel.findById(req.params.id);
+	res.json(note);
+});
+
+app.delete("/notes/delete/:id", async (req: Request, res: Response) => {
+	const note = await NoteModel.findByIdAndDelete(req.params.id);
 	res.json(note);
 });
 

@@ -20,6 +20,17 @@ const Notes = () => {
 		navigate(`/notes/${noteId}`);
 	};
 
+	const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+		fetch(`http://localhost:5000/notes/delete/${selectedNote?._id}`, {
+			method: "DELETE",
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setNotes(notes.filter((note) => note._id !== data._id));
+				navigate("/notes");
+			});
+	};
+
 	const [notes, setNotes] = useState<Note[]>([]);
 	const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
@@ -42,6 +53,9 @@ const Notes = () => {
 	return (
 		<div>
 			<h1>Notes</h1>
+			<button id="create-note" onClick={() => navigate("/notes/create")}>
+				Create Note
+			</button>
 			<ul>
 				{notes.map((note) => (
 					<li key={note._id}>
@@ -59,6 +73,9 @@ const Notes = () => {
 					<p>{selectedNote.folder}</p>
 					<p>{selectedNote.created}</p>
 					<p>{selectedNote.updated}</p>
+					<button id="delete-note" onClick={handleDelete}>
+						Delete Note
+					</button>
 				</div>
 			)}
 		</div>
