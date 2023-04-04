@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { createNote } from "../api/createNote";
 
 const CreateNote = () => {
 	const navigate = useNavigate();
@@ -11,18 +12,13 @@ const CreateNote = () => {
 		const user = document.getElementById("user") as HTMLInputElement;
 		const folder = document.getElementById("folder") as HTMLInputElement;
 
-		await fetch("http://localhost:5000/notes/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				title: title.value,
-				content: content.value,
-				user: user.value,
-				folder: folder.value,
-			}),
+		await createNote({
+			title: title.value,
+			content: content.value,
+			user: user.value,
+			folder: folder.value,
 		});
+
 		navigate("/notes");
 	};
 

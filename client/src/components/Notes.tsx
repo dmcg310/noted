@@ -1,19 +1,39 @@
-import React, { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { deleteNote } from "../api/deleteNote";
+import { API_URL } from "../api/config";
+
+interface Note {
+	_id: string;
+	title: string;
+	content: string;
+	user: string;
+	folder: string;
+	created: string;
+	updated: string;
+}
 
 const Notes = () => {
 	const navigate = useNavigate();
 	const { noteId } = useParams();
+	const [notes, setNotes] = useState<Note[]>([]);
+	const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
-	interface Note {
-		_id: string;
-		title: string;
-		content: string;
-		user: string;
-		folder: string;
-		created: string;
-		updated: string;
-	}
+	useEffect(() => {
+		fetch(`${API_URL}/notes`)
+			.then((res) => res.json())
+			.then((data) => setNotes(data));
+	}, []);
+
+	useEffect(() => {
+		if (noteId) {
+			fetch(`${API_URL}/notes/${noteId}`)
+				.then((res) => res.json())
+				.then((data) => setSelectedNote(data));
+		} else {
+			setSelectedNote(null);
+		}
+	}, [noteId]);
 
 	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const noteId = e.currentTarget.id;
@@ -21,34 +41,13 @@ const Notes = () => {
 	};
 
 	const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-		fetch(`http://localhost:5000/notes/delete/${selectedNote?._id}`, {
-			method: "DELETE",
-		})
+		deleteNote(selectedNote!)
 			.then((res) => res.json())
 			.then((data) => {
 				setNotes(notes.filter((note) => note._id !== data._id));
 				navigate("/notes");
 			});
 	};
-
-	const [notes, setNotes] = useState<Note[]>([]);
-	const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-
-	useEffect(() => {
-		fetch("http://localhost:5000/notes")
-			.then((res) => res.json())
-			.then((data) => setNotes(data));
-	}, []);
-
-	useEffect(() => {
-		if (noteId) {
-			fetch(`http://localhost:5000/notes/${noteId}`)
-				.then((res) => res.json())
-				.then((data) => setSelectedNote(data));
-		} else {
-			setSelectedNote(null);
-		}
-	}, [noteId]);
 
 	return (
 		<div>
@@ -74,7 +73,7 @@ const Notes = () => {
 					<p>{selectedNote.created}</p>
 					<p>{selectedNote.updated}</p>
 					<button id="delete-note" onClick={handleDelete}>
-						Delete Note
+						Delete
 					</button>
 				</div>
 			)}
