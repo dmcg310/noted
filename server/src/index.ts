@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import NoteModel from "./models/note";
+import cors from "cors";
 
 config();
 
@@ -9,10 +10,7 @@ const PORT = 5000;
 const app = express();
 
 app.use(express.json());
-
-app.get("/", (req: Request, res: Response) => {
-	res.send("Hello World!");
-});
+app.use(cors());
 
 app.post("/notes", async (req: Request, res: Response) => {
 	const note = new NoteModel({
@@ -25,6 +23,16 @@ app.post("/notes", async (req: Request, res: Response) => {
 	});
 	const createdNote = await note.save();
 	res.json(createdNote);
+});
+
+app.get("/notes", async (req: Request, res: Response) => {
+	const notes = await NoteModel.find();
+	res.json(notes);
+});
+
+app.get("/notes/:id", async (req: Request, res: Response) => {
+	const note = await NoteModel.findById(req.params.id);
+	res.json(note);
 });
 
 const db = mongoose.connect(process.env.MONGO_URL!).then(() => {
