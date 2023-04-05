@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { signIn } from "../api/signIn";
 
 const SignIn = () => {
-	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const navigate = useNavigate();
 
 	const handleSignIn = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -16,9 +17,10 @@ const SignIn = () => {
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password);
 			const data = await signIn(userCredential.user.email!, password);
+			const userEmail = userCredential.user.email;
 
 			if (data !== null) {
-				navigate("/notes");
+				navigate("/user", { state: { userEmail } });
 			} else {
 				alert("Error signing in");
 			}

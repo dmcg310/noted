@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./stylesheets/App.css";
-import Notes from "./components/Notes";
-import CreateNote from "./components/CreateNote";
 import Index from "./components/Index";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SingUp";
+import User from "./components/User";
+import UserNotes from "./components/UserNotes";
+import SpecficNote from "./components/SpecificNote";
 
 function App() {
 	return (
@@ -14,10 +15,11 @@ function App() {
 					<Route path="/" element={<Index />} />
 					<Route path="/sign-in" element={<SignIn />} />
 					<Route path="/sign-up" element={<SignUp />} />
-					<Route path="/notes" element={<Notes />} />
-					<Route path="/notes/:noteId" element={<Notes />} />
-					<Route path="/notes/create" element={<CreateNote />} />
-					<Route path="/notes/delete" element={<Notes />} />
+					<Route path="/user" element={<User />} />
+					<Route path="/user/notes" element={<UserNotes />} />
+					{/* <Route path="/user/notes/create" element={<CreateNote />} /> */}
+					{/* <Route path="/user/notes/edit" element={<EditNote />} /> */}
+					<Route path="/user/notes/:noteTitle" element={<SpecficNote />} />
 				</Routes>
 			</Router>
 		</div>

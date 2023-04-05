@@ -9,47 +9,12 @@ config();
 
 const PORT = 5000;
 const app = express();
+
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 app.use(express.json());
 app.use(cors());
-
-// get all notes
-app.get("/notes", async (req: Request, res: Response) => {
-	const notes = await NoteModel.find();
-	res.json(notes);
-});
-
-// TODO:get notes by user id
-
-// get note by id
-app.get("/notes/:id", async (req: Request, res: Response) => {
-	const note = await NoteModel.findById(req.params.id);
-	res.json(note);
-});
-
-// create note
-app.post("/notes/create", async (req: Request, res: Response) => {
-	const note = new NoteModel({
-		title: req.body.title || "",
-		content: req.body.content || "",
-		user: req.body.user || "",
-		folder: req.body.folder || "",
-		created: new Date(),
-		updated: new Date(),
-	});
-	const createdNote = await note.save();
-	res.json(createdNote);
-});
-
-// TODO:update note by id
-
-// delete note by id
-app.delete("/notes/delete/:id", async (req: Request, res: Response) => {
-	const note = await NoteModel.findByIdAndDelete(req.params.id);
-	res.json(note);
-});
 
 // sign up
 app.post("/sign-up", async (req: Request, res: Response) => {
@@ -84,6 +49,72 @@ app.post("/sign-in", async (req: Request, res: Response) => {
 		res.json("User not found");
 	}
 });
+
+// fetch all notes for a user
+app.get("/user/notes", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.query.email;
+		const user = await UserModel.findOne({ email: userEmail });
+
+		if (user) {
+			const noteIds = user.notes;
+			const notes = await NoteModel.find({ _id: { $in: noteIds } });
+
+			res.json(notes);
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// fetch a specific note
+app.get("/user/notes/:noteTitle", async (req: Request, res: Response) => {
+	try {
+		const noteTitle = req.params.noteTitle;
+		const note = await NoteModel.findOne({ title: noteTitle });
+
+		if (noteTitle) {
+			res.json(note);
+		} else {
+			res.status(404).json({ message: "Note not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// create note
+app.post("/user/create", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.body.email;
+		const user = await UserModel.findOne({ email: userEmail });
+
+		if (user) {
+			const note = new NoteModel({
+				title: req.body.title || "",
+				content: req.body.content || "",
+				user: user,
+				folder: req.body.folder || "",
+				created: new Date(),
+				updated: new Date(),
+			});
+			const createdNote = await note.save();
+			const noteId = createdNote._id;
+			user.notes.push(noteId);
+
+			const updatedUser = await user.save();
+			res.json(updatedUser);
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// TODO: update note
 
 // db connection
 const db = mongoose.connect(process.env.MONGO_URL!).then(() => {

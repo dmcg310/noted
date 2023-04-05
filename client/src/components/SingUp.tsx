@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { signUp } from "../api/signUp";
 
 const SignUp = () => {
-	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const navigate = useNavigate();
 
 	const handleSignUp = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -17,7 +18,7 @@ const SignUp = () => {
 			const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 			await signUp(userCredential.user.email!, password);
 
-			navigate("/notes");
+			navigate("/user/notes");
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				if (error.code === "auth/email-already-in-use") {
