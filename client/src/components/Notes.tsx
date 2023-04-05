@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteNote } from "../api/deleteNote";
-import { API_URL } from "../api/config";
+import { fetchNoteById } from "../api/fetchNoteById";
+import { fetchNotes } from "../api/fetchNotes";
 
 interface Note {
 	_id: string;
@@ -19,22 +20,21 @@ const Notes = () => {
 	const [notes, setNotes] = useState<Note[]>([]);
 	const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
+	// Fetch notes
 	useEffect(() => {
-		fetch(`${API_URL}/notes`)
-			.then((res) => res.json())
-			.then((data) => setNotes(data));
+		fetchNotes().then((data) => setNotes(data));
 	}, []);
 
+	// Fetch selected note
 	useEffect(() => {
 		if (noteId) {
-			fetch(`${API_URL}/notes/${noteId}`)
-				.then((res) => res.json())
-				.then((data) => setSelectedNote(data));
+			fetchNoteById(noteId).then((data) => setSelectedNote(data));
 		} else {
 			setSelectedNote(null);
 		}
 	}, [noteId]);
 
+	// view note
 	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const noteId = e.currentTarget.id;
 		navigate(`/notes/${noteId}`);
