@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./stylesheets/App.css";
 import Index from "./components/Index";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SingUp";
-import User from "./components/User";
-import UserNotes from "./components/UserNotes";
-import SpecficNote from "./components/SpecificNote";
-import CreateNote from "./components/CreateNote";
-import EditNote from "./components/EditNote";
+import SignIn from "./components/login/SignIn";
+import SignUp from "./components/login/SingUp";
+import User from "./components/user/User";
+import UserNotes from "./components/user/UserNotes";
+import SpecficNote from "./components/notes/SpecificNote";
+import CreateNote from "./components/notes/CreateNote";
+import EditNote from "./components/notes/EditNote";
 
 function App() {
 	return (

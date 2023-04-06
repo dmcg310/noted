@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import editNote from "../api/editNote";
+import editNote from "../../api/notes/editNote";
 
 const EditNote = () => {
 	const [noteContent, setNoteContent] = useState<string>("");

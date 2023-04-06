@@ -136,6 +136,25 @@ app.put("/user/:noteTitle/edit", async (req: Request, res: Response) => {
 	}
 });
 
+// delete note
+app.delete("/user/:noteTitle/delete", async (req: Request, res: Response) => {
+	try {
+		const noteTitle = req.body.noteTitle;
+
+		const exists = await NoteModel.findOne({ title: noteTitle });
+
+		if (exists) {
+			const note = await NoteModel.deleteOne({ title: noteTitle });
+
+			res.json(note);
+		} else {
+			res.status(404).json({ message: "Note not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
 // db connection
 mongoose.connect(process.env.MONGO_URL!).then(() => {
 	app.listen(PORT);

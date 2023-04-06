@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import createNote from "../api/createNote";
+import createNote from "../../api/notes/createNote";
 
-const CreateNote = () => {
+const MakeNote = () => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 
@@ -13,18 +13,11 @@ const CreateNote = () => {
 	const userEmail = params.get("userEmail") ?? "";
 
 	const handleSubmit = async () => {
-		const response = await fetch("http://localhost:5000/user/notes/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				title,
-				content,
-				userEmail,
-			}),
+		const note = await createNote({
+			title,
+			content,
+			userEmail,
 		});
-		const note = await response.json();
 
 		if (note) {
 			navigate(-1);
@@ -64,4 +57,4 @@ const CreateNote = () => {
 	);
 };
 
-export default CreateNote;
+export default MakeNote;

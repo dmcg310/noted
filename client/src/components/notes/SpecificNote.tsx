@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import fetchSpecificNote from "../api/fetchSpecificNote";
+import fetchSpecificNote from "../../api/notes/fetchSpecificNote";
+import removeNote from "../../api/notes/removeNote";
 
 interface Note {
 	_id: string;
@@ -31,6 +32,16 @@ const SpecficNote = () => {
 		});
 	};
 
+	const deleteNote = async () => {
+		const data = await removeNote(noteTitle);
+
+		if (data) {
+			navigate(-1);
+		} else {
+			alert("Error deleting note");
+		}
+	};
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await fetchSpecificNote(noteTitle);
@@ -46,6 +57,9 @@ const SpecficNote = () => {
 			<h3>{note?.content}</h3>
 			<button name="edit-note" id="edit-note-button" onClick={editNote}>
 				Edit Note
+			</button>
+			<button name="delete-note" id="delete-note-button" onClick={deleteNote}>
+				Delete Note
 			</button>
 			<button name="home-redirect" id="home-redirect-button" onClick={goHome}>
 				Home

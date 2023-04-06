@@ -1,7 +1,7 @@
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 
-export async function signIn(email: string, password: string) {
-	const response = await fetch(`${API_URL}/sign-in`, {
+export async function signUp(email: string, password: string) {
+	const response = await fetch(`${API_URL}/sign-up`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -16,6 +16,6 @@ export async function signIn(email: string, password: string) {
 		const data = await response.json();
 		return data;
 	} else {
-		return null;
+		throw new Error("Error signing up");
 	}
 }

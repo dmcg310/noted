@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebaseConfig";
+import { auth } from "../../../firebase/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../api/signIn";
+import { signIn } from "../../api/login/signIn";
 
 const SignIn = () => {
 	const [email, setEmail] = useState("");

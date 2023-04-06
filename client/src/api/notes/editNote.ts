@@ -1,4 +1,4 @@
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 
 const editNote = async (noteTitle: string, noteContent: string) => {
 	const response = await fetch(`${API_URL}/user/${noteTitle}/edit`, {

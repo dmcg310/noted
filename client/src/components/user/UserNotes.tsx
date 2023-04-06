@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import fetchAllNotes from "../api/fetchAllNotes";
+import fetchAllNotes from "../../api/notes/fetchAllNotes";
 
 interface Note {
 	_id: string;
