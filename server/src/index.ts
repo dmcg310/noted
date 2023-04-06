@@ -53,7 +53,7 @@ app.post("/sign-in", async (req: Request, res: Response) => {
 // fetch all notes for a user
 app.get("/user/notes", async (req: Request, res: Response) => {
 	try {
-		const userEmail = req.query.email;
+		const userEmail = req.query.email || req.body.email;
 		const user = await UserModel.findOne({ email: userEmail });
 
 		if (user) {
@@ -86,20 +86,21 @@ app.get("/user/notes/:noteTitle", async (req: Request, res: Response) => {
 });
 
 // create note
-app.post("/user/create", async (req: Request, res: Response) => {
+app.post("/user/notes/create", async (req: Request, res: Response) => {
 	try {
-		const userEmail = req.body.email;
+		const userEmail = req.body.userEmail;
 		const user = await UserModel.findOne({ email: userEmail });
 
 		if (user) {
 			const note = new NoteModel({
 				title: req.body.title || "",
 				content: req.body.content || "",
-				user: user,
+				user: userEmail,
 				folder: req.body.folder || "",
 				created: new Date(),
 				updated: new Date(),
 			});
+
 			const createdNote = await note.save();
 			const noteId = createdNote._id;
 			user.notes.push(noteId);
@@ -114,10 +115,29 @@ app.post("/user/create", async (req: Request, res: Response) => {
 	}
 });
 
-// TODO: update note
+// edit note
+app.put("/user/:noteTitle/edit", async (req: Request, res: Response) => {
+	try {
+		const noteTitle = req.params.noteTitle;
+
+		const note = await NoteModel.findOne({ title: noteTitle });
+
+		if (note) {
+			note.title = req.body.title || note.title;
+			note.content = req.body.content || note.content;
+
+			const updatedNote = await note.save();
+			res.json(updatedNote);
+		} else {
+			res.status(404).json({ message: "Note not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
 
 // db connection
-const db = mongoose.connect(process.env.MONGO_URL!).then(() => {
+mongoose.connect(process.env.MONGO_URL!).then(() => {
 	app.listen(PORT);
 	console.log(`Server started on port ${PORT}`);
 });

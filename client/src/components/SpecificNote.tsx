@@ -19,9 +19,16 @@ const SpecficNote = () => {
 	const navigate = useNavigate();
 
 	const noteTitle = location.state?.noteTitle;
+	const userEmail = location.state?.userEmail;
 
 	const goHome = () => {
 		navigate(-1);
+	};
+
+	const editNote = () => {
+		navigate(`/user/notes/${noteTitle}/edit`, {
+			state: { noteTitle: note?.title, noteContent: note?.content, userEmail: userEmail },
+		});
 	};
 
 	useEffect(() => {
@@ -37,6 +44,9 @@ const SpecficNote = () => {
 		<div>
 			<h1>{note?.title}</h1>
 			<h3>{note?.content}</h3>
+			<button name="edit-note" id="edit-note-button" onClick={editNote}>
+				Edit Note
+			</button>
 			<button name="home-redirect" id="home-redirect-button" onClick={goHome}>
 				Home
 			</button>

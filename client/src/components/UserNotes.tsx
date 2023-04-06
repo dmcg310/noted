@@ -18,7 +18,8 @@ const UserNotes = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const userEmail = location.state?.userEmail;
+	const userEmail =
+		location.state?.userEmail ?? new URLSearchParams(location.search).get("email");
 
 	const viewSpecificNote = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const noteTitle = e.currentTarget.innerText;
@@ -36,6 +37,10 @@ const UserNotes = () => {
 		};
 
 		fetchData();
+
+		if (!userEmail) {
+			navigate("/sign-in");
+		}
 	}, []);
 
 	return (
@@ -43,13 +48,20 @@ const UserNotes = () => {
 			<h1>Notes</h1>
 			<ul>
 				{notes.map((note) => (
-					<li>
+					<li key={note._id}>
 						<button name="note-title" id="note-title" onClick={viewSpecificNote}>
 							{note.title}
 						</button>
 					</li>
 				))}
 			</ul>
+			<button
+				name="create-note"
+				id="create-note"
+				onClick={() => navigate(`/user/notes/create?userEmail=${userEmail}`)}
+			>
+				Create Note
+			</button>
 			<p>
 				Click <button onClick={goBack}>here</button> to go back
 			</p>
