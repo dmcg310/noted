@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import SignOut from "../login/SignOut";
 
 const User = () => {
 	const navigate = useNavigate();
@@ -16,6 +17,7 @@ const User = () => {
 			<button name="view-notes" id="view-notes" onClick={viewNotes}>
 				View Notes
 			</button>
+			<SignOut />
 		</div>
 	);
 };

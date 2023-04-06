@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+	browserSessionPersistence,
+	browserLocalPersistence,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../../../firebase/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../api/login/signIn";
+import { setPersistence } from "firebase/auth";
 
 const SignIn = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [rememberMe, setRememberMe] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -23,6 +29,12 @@ const SignIn = () => {
 				navigate("/user", { state: { userEmail } });
 			} else {
 				alert("Error signing in");
+			}
+
+			if (rememberMe) {
+				setPersistence(auth, browserLocalPersistence);
+			} else {
+				setPersistence(auth, browserSessionPersistence);
 			}
 		} catch (error) {
 			if (error instanceof FirebaseError) {
@@ -57,6 +69,15 @@ const SignIn = () => {
 					name="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
+				/>
+
+				<label htmlFor="remember-me">Remember me</label>
+				<input
+					type="checkbox"
+					name="remember-me"
+					id="remember-me"
+					checked={rememberMe}
+					onChange={(e) => setRememberMe(e.target.checked)}
 				/>
 
 				<button type="submit">Sign In</button>
