@@ -11,11 +11,18 @@ const User = () => {
 		navigate("/user/notes", { state: { userEmail } });
 	};
 
+	const viewFolders = () => {
+		navigate("/user/folders", { state: { userEmail } });
+	};
+
 	return (
 		<div>
 			<h1>Welcome, {userEmail}</h1>
 			<button name="view-notes" id="view-notes" onClick={viewNotes}>
 				View Notes
+			</button>
+			<button name="view-folders" id="view-folders" onClick={viewFolders}>
+				View Folders
 			</button>
 			<SignOut />
 		</div>

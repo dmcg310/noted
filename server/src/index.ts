@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import NoteModel from "./models/Note";
 import UserModel from "./models/User";
 import cors from "cors";
+import FolderModel from "./models/Folder";
 
 config();
 
@@ -149,6 +150,87 @@ app.delete("/user/:noteTitle/delete", async (req: Request, res: Response) => {
 			res.json(note);
 		} else {
 			res.status(404).json({ message: "Note not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// new folder
+app.post("/user/folders/create", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.query.email || req.body.email;
+		const user = await UserModel.findOne({ email: userEmail });
+
+		if (user) {
+			const folder = new FolderModel({
+				name: req.body.name,
+				user: userEmail,
+				created: new Date(),
+				notes: [],
+			});
+
+			const createdFolder = await folder.save();
+			res.json(createdFolder);
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// new note in folder
+app.post("/user/folders/:folderId/create", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.query.email || req.body.email;
+		const folderId = req.params.folderId;
+
+		const [user, folder] = await Promise.all([
+			UserModel.findOne({ email: userEmail }).lean(),
+			FolderModel.findOne({ _id: folderId }).lean(),
+		]);
+
+		if (user && folder) {
+			const note = new NoteModel({
+				title: req.body.title,
+				content: req.body.content,
+				user: userEmail,
+				folder: folderId,
+				created: new Date(),
+				updated: new Date(),
+			});
+
+			const createdNote = await note.save();
+			const noteId = createdNote._id;
+			user.notes.push(noteId);
+			folder.notes.push(noteId);
+
+			const updatedUser = await UserModel.findOneAndUpdate({ email: userEmail }, user);
+			const updatedFolder = await FolderModel.findOneAndUpdate({ _id: folderId }, folder);
+
+			res.json({ user: updatedUser, folder: updatedFolder });
+		} else {
+			res.status(404).json({ message: "User or folder not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// fetch all folders for a user
+app.get("/user/folders", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.query.email || req.body.email;
+
+		const user = await UserModel.findOne({ email: userEmail });
+
+		const folders = await FolderModel.find({ user: userEmail });
+
+		if (user) {
+			res.json(folders);
+		} else {
+			res.status(404).json({ message: "User not found" });
 		}
 	} catch (error) {
 		console.log(error);
