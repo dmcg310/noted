@@ -45,11 +45,11 @@ const ViewFolders = () => {
 						<button
 							name="folder-name"
 							id="folder-name"
-							// onClick={() =>
-							// 	navigate(`/user/folders/${folder.name}`, {
-							// 		state: { folderName: folder.name },
-							// 	})
-							// }
+							onClick={() =>
+								navigate(`/user/folders/${folder._id}`, {
+									state: { folderId: folder._id, userEmail: userEmail },
+								})
+							}
 						>
 							{folder.name}
 						</button>
@@ -63,9 +63,7 @@ const ViewFolders = () => {
 			>
 				Create Folder
 			</button>
-			<p>
-				Click <button onClick={goBack}>here</button> to go back
-			</p>
+			<button onClick={goBack}>Back</button>
 		</div>
 	);
 };

@@ -9,14 +9,16 @@ const MakeNote = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
+	const folderId = location.state?.folderId;
 	const params = new URLSearchParams(location.search);
-	const userEmail = params.get("userEmail") ?? "";
+	const userEmail = params.get("userEmail") ?? location.state?.userEmail;
 
 	const handleSubmit = async () => {
 		const note = await createNote({
 			title,
 			content,
 			userEmail,
+			folderId,
 		});
 
 		if (note) {

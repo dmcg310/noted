@@ -4,9 +4,10 @@ interface Note {
 	title: string;
 	content: string;
 	userEmail: string;
+	folderId: string;
 }
 
-const createNote = async ({ title, content, userEmail }: Note) => {
+const createNote = async ({ title, content, userEmail, folderId }: Note) => {
 	const response = await fetch(`${API_URL}/user/notes/create`, {
 		method: "POST",
 		headers: {
@@ -16,6 +17,7 @@ const createNote = async ({ title, content, userEmail }: Note) => {
 			title,
 			content,
 			userEmail,
+			folderId,
 		}),
 	});
 

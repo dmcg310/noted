@@ -9,6 +9,7 @@ const Index = () => {
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			setIsLoading(false);
+
 			if (user) {
 				navigate("/user", { state: { userEmail: user.email } });
 			}

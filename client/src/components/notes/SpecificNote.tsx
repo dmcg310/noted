@@ -62,7 +62,7 @@ const SpecficNote = () => {
 				Delete Note
 			</button>
 			<button name="home-redirect" id="home-redirect-button" onClick={goHome}>
-				Home
+				Back
 			</button>
 		</div>
 	);

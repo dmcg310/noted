@@ -90,14 +90,17 @@ app.get("/user/notes/:noteTitle", async (req: Request, res: Response) => {
 app.post("/user/notes/create", async (req: Request, res: Response) => {
 	try {
 		const userEmail = req.body.userEmail;
-		const user = await UserModel.findOne({ email: userEmail });
+		const folderId = req.body.folderId;
 
-		if (user) {
+		const user = await UserModel.findOne({ email: userEmail });
+		const folder = await FolderModel.findOne({ _id: folderId });
+
+		if (user && folder) {
 			const note = new NoteModel({
-				title: req.body.title || "",
-				content: req.body.content || "",
+				title: req.body.title,
+				content: req.body.content,
 				user: userEmail,
-				folder: req.body.folder || "",
+				folder: req.body.folderId,
 				created: new Date(),
 				updated: new Date(),
 			});
@@ -105,9 +108,12 @@ app.post("/user/notes/create", async (req: Request, res: Response) => {
 			const createdNote = await note.save();
 			const noteId = createdNote._id;
 			user.notes.push(noteId);
+			folder.notes.push(noteId);
 
-			const updatedUser = await user.save();
-			res.json(updatedUser);
+			await user.save();
+			await folder.save();
+
+			res.json(createdNote);
 		} else {
 			res.status(404).json({ message: "User not found" });
 		}
@@ -231,6 +237,31 @@ app.get("/user/folders", async (req: Request, res: Response) => {
 			res.json(folders);
 		} else {
 			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// view notes in a folder
+app.get("/user/folders/:folderId", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.query.email || req.body.email;
+		const folderId = req.params.folderId;
+
+		const [user, folder] = await Promise.all([
+			UserModel.findOne({ email: userEmail }).lean(),
+			FolderModel.findOne({ _id: folderId }).lean(),
+		]);
+
+		if (user && folder) {
+			const folderNotesArray = folder.notes;
+
+			const notes = await NoteModel.find({ _id: { $in: folderNotesArray } });
+
+			res.json(notes);
+		} else {
+			res.status(404).json({ message: "User or folder not found" });
 		}
 	} catch (error) {
 		console.log(error);
