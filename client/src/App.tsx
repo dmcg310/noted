@@ -12,28 +12,31 @@ import CreateFolder from "./components/folders/CreateFolder";
 import ViewFolderContent from "./components/folders/ViewFolderContents";
 
 function App() {
-	return (
-		<div className="App">
-			<Router>
-				<Routes>
-					<Route path="/" element={<Index />} />
+    return (
+        <div className="App">
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Index />} />
 
-					<Route path="/sign-in" element={<SignIn />} />
-					<Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
 
-					<Route path="/user" element={<User />} />
+                    <Route path="/user" element={<User />} />
 
-					<Route path="/user/folders" element={<ViewFolders />} />
-					<Route path="/user/folders/create" element={<CreateFolder />} />
-					<Route path="/user/folders/:folderId" element={<ViewFolderContent />} />
+                    <Route path="/user/folders" element={<ViewFolders />} />
+                    <Route path="/user/folders/create" element={<CreateFolder />} />
+                    <Route
+                        path="/user/folders/:folderId"
+                        element={<ViewFolderContent />}
+                    />
 
-					<Route path="/user/notes/create" element={<CreateNote />} />
-					<Route path="/user/notes/:noteTitle" element={<SpecficNote />} />
-					<Route path="/user/notes/:notetitle/edit" element={<EditNote />} />
-				</Routes>
-			</Router>
-		</div>
-	);
+                    <Route path="/user/notes/create" element={<CreateNote />} />
+                    <Route path="/user/notes/:noteTitle" element={<SpecficNote />} />
+                    <Route path="/user/notes/:notetitle/edit" element={<EditNote />} />
+                </Routes>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
