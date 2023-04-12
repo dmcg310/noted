@@ -9,7 +9,6 @@ import CreateNote from "./components/notes/CreateNote";
 import EditNote from "./components/notes/EditNote";
 import ViewFolders from "./components/folders/ViewFolders";
 import CreateFolder from "./components/folders/CreateFolder";
-import ViewFolderContent from "./components/folders/ViewFolderContents";
 
 function App() {
     return (
@@ -25,10 +24,6 @@ function App() {
 
                     <Route path="/user/folders" element={<ViewFolders />} />
                     <Route path="/user/folders/create" element={<CreateFolder />} />
-                    <Route
-                        path="/user/folders/:folderId"
-                        element={<ViewFolderContent />}
-                    />
 
                     <Route path="/user/notes/create" element={<CreateNote />} />
                     <Route path="/user/notes/:noteTitle" element={<SpecficNote />} />

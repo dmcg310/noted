@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import fetchAllFolders from "../../api/folders/fetchAllFolders";
 import viewNotesInFolder from "../../api/folders/viewNotesInFolder";
+import fetchAllNotes from "../../api/notes/fetchAllNotes";
 
 interface Folder {
     _id: string;
@@ -26,7 +27,8 @@ const ViewFolders = () => {
     const [folderId, setFolderId] = useState<string>("");
     const [notes, setNotes] = useState<Note[]>([]);
     const [allNotes, setAllNotes] = useState<{ [folderId: string]: Note[] }>({});
-
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isFetchingNotes, setIsFetchingNotes] = useState<boolean>(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -41,10 +43,21 @@ const ViewFolders = () => {
         setFolderId(folder._id);
     };
 
+    const createNote = () => {
+        navigate(`/user/notes/create`, {
+            state: {
+                userEmail,
+                folderId,
+            },
+        });
+    };
+
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             const foldersData = await fetchAllFolders(userEmail);
             setFolders(foldersData);
+            setIsLoading(false);
         };
 
         fetchData();
@@ -57,18 +70,25 @@ const ViewFolders = () => {
                 setNotes(allNotes[folderId]);
             } else {
                 // if not, fetch notes for the selected folder
+                setIsFetchingNotes(true);
                 const notesData = await viewNotesInFolder(userEmail, folderId);
                 setAllNotes({ ...allNotes, [folderId]: notesData });
                 setNotes(notesData);
+                setIsFetchingNotes(false);
             }
         };
 
         fetchNotes();
     }, [folderId]);
 
+    if (isLoading) {
+        return <h1>Loading...</h1>;
+    }
+
     return (
         <div>
-            <h1>Folders</h1>
+            <h1>Notes</h1>
+            <h3>Folders</h3>
             <ul>
                 {/* display all folder names */}
                 {folders.map((folder) => (
@@ -82,43 +102,34 @@ const ViewFolders = () => {
                         </button>
 
                         {/* display all notes in the selected folder */}
-                        {folder._id === folderId && (
+                        {folder._id === folderId && notes.length > 0 && (
                             <ul>
-                                {notes.map((note) => (
-                                    <li key={note._id}>
-                                        <button
-                                            name="note-title"
-                                            // TODO: Fix this
-                                            onClick={() =>
-                                                navigate(`/user/notes/${note.title}`, {
-                                                    state: {
-                                                        userEmail,
-                                                        folderId: folder._id,
-                                                        noteTitle: note.title,
-                                                    },
-                                                })
-                                            }
-                                        >
-                                            {note.title}
-                                        </button>
-                                    </li>
-                                ))}
-
-                                {/* create a new note in the selected folder */}
-                                <button
-                                    name="folder-name"
-                                    id="folder-name"
-                                    onClick={() =>
-                                        navigate(`/user/notes/create`, {
-                                            state: {
-                                                userEmail,
-                                                folderId: folder._id,
-                                            },
-                                        })
-                                    }
-                                >
-                                    Add Note
-                                </button>
+                                {isFetchingNotes && <li>Loading notes...</li>}
+                                {!isFetchingNotes && notes.length === 0 && (
+                                    <li>No notes in this folder.</li>
+                                )}
+                                {!isFetchingNotes &&
+                                    notes.map((note) => (
+                                        <li key={note._id}>
+                                            <button
+                                                name="note-title"
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/user/notes/${note.title}`,
+                                                        {
+                                                            state: {
+                                                                userEmail,
+                                                                folderId: folder._id,
+                                                                noteTitle: note.title,
+                                                            },
+                                                        }
+                                                    )
+                                                }
+                                            >
+                                                {note.title}
+                                            </button>
+                                        </li>
+                                    ))}
                             </ul>
                         )}
                     </li>
@@ -133,9 +144,14 @@ const ViewFolders = () => {
                     })
                 }
             >
-                Add Folder
+                Create Folder
             </button>
-            <button onClick={goBack}>Back</button>
+            {folderId && (
+                <button name="create-note" id="create-note" onClick={createNote}>
+                    Create Note
+                </button>
+            )}
+            <button onClick={goBack}>Home</button>
         </div>
     );
 };
