@@ -60,12 +60,12 @@ app.post("/sign-in", async (req: Request, res: Response) => {
 });
 
 // fetch a specific note
-app.get("/user/notes/:noteTitle", async (req: Request, res: Response) => {
+app.get("/user/notes/:noteId", async (req: Request, res: Response) => {
     try {
-        const noteTitle = req.params.noteTitle;
-        const note = await NoteModel.findOne({ title: noteTitle });
+        const noteId = req.params.noteId;
+        const note = await NoteModel.findOne({ _id: noteId });
 
-        if (noteTitle) {
+        if (noteId) {
             res.json(note);
         } else {
             res.status(404).json({ message: "Note not found" });
@@ -112,11 +112,11 @@ app.post("/user/notes/create", async (req: Request, res: Response) => {
 });
 
 // edit note
-app.put("/user/:noteTitle/edit", async (req: Request, res: Response) => {
+app.put("/user/notes/:noteId/edit", async (req: Request, res: Response) => {
     try {
-        const noteTitle = req.params.noteTitle;
+        const noteId = req.body.noteId;
 
-        const note = await NoteModel.findOne({ title: noteTitle });
+        const note = await NoteModel.findOne({ _id: noteId });
 
         if (note) {
             note.title = req.body.title || note.title;
@@ -135,14 +135,29 @@ app.put("/user/:noteTitle/edit", async (req: Request, res: Response) => {
 // delete note
 app.delete("/user/:noteTitle/delete", async (req: Request, res: Response) => {
     try {
-        const noteTitle = req.body.noteTitle;
+        const noteId = req.body.noteId;
+        const userEmail = req.body.user;
+        const folderId = req.body.folderId;
 
-        const exists = await NoteModel.findOne({ title: noteTitle });
+        const [user, note, folder] = await Promise.all([
+            UserModel.findOne({ email: userEmail }),
+            NoteModel.findOne({ _id: noteId }),
+            FolderModel.findOne({ _id: folderId }),
+        ]);
 
-        if (exists) {
-            const note = await NoteModel.deleteOne({ title: noteTitle });
+        if (user && note && folder) {
+            const folderIndex = folder.notes.indexOf(noteId);
+            const noteIndex = user.notes.indexOf(noteId);
 
-            res.json(note);
+            user.notes.splice(noteIndex, 1);
+            folder.notes.splice(folderIndex, 1);
+
+            await user.save();
+            await folder.save();
+
+            await note.deleteOne();
+
+            res.json({ message: "Note deleted", note });
         } else {
             res.status(404).json({ message: "Note not found" });
         }
@@ -213,6 +228,27 @@ app.get("/user/folders/:folderId", async (req: Request, res: Response) => {
             res.json(notes);
         } else {
             res.status(404).json({ message: "User or folder not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// delete folder
+app.delete("/user/folders", async (req: Request, res: Response) => {
+    try {
+        const folderId = req.body.folderId;
+
+        const folder = await FolderModel.findOne({ _id: folderId });
+
+        if (folder) {
+            const folderNotesArray = folder.notes;
+
+            await NoteModel.deleteMany({ _id: { $in: folderNotesArray } });
+            await folder.deleteOne();
+            res.json({ message: "Folder deleted" });
+        } else {
+            res.status(404).json({ message: "Folder not found" });
         }
     } catch (error) {
         console.log(error);

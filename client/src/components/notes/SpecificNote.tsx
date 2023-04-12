@@ -19,16 +19,18 @@ const SpecficNote = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const noteTitle = location.state?.noteTitle;
+    const noteId = location.state?.noteId;
     const userEmail = location.state?.userEmail;
+    const folderId = location.state?.folderId;
 
     const goHome = () => {
         navigate(-1);
     };
 
     const editNote = () => {
-        navigate(`/user/notes/${noteTitle}/edit`, {
+        navigate(`/user/notes/${noteId}/edit`, {
             state: {
+                noteId: noteId,
                 noteTitle: note?.title,
                 noteContent: note?.content,
                 userEmail: userEmail,
@@ -37,7 +39,7 @@ const SpecficNote = () => {
     };
 
     const deleteNote = async () => {
-        const data = await removeNote(noteTitle);
+        const data = await removeNote(noteId, userEmail, folderId);
 
         if (data) {
             navigate(-1);
@@ -48,7 +50,7 @@ const SpecficNote = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchSpecificNote(noteTitle);
+            const data = await fetchSpecificNote(noteId);
             setNote(data);
         };
 

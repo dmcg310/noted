@@ -26,8 +26,8 @@ function App() {
                     <Route path="/user/folders/create" element={<CreateFolder />} />
 
                     <Route path="/user/notes/create" element={<CreateNote />} />
-                    <Route path="/user/notes/:noteTitle" element={<SpecficNote />} />
-                    <Route path="/user/notes/:notetitle/edit" element={<EditNote />} />
+                    <Route path="/user/notes/:noteId" element={<SpecficNote />} />
+                    <Route path="/user/notes/:noteId/edit" element={<EditNote />} />
                 </Routes>
             </Router>
         </div>

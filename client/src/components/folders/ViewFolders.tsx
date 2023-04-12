@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import fetchAllFolders from "../../api/folders/fetchAllFolders";
 import viewNotesInFolder from "../../api/folders/viewNotesInFolder";
-import fetchAllNotes from "../../api/notes/fetchAllNotes";
+import deleteFolder from "../../api/folders/deleteFolder";
 
 interface Folder {
     _id: string;
@@ -52,6 +52,16 @@ const ViewFolders = () => {
         });
     };
 
+    const deleteFolders = async () => {
+        const data = await deleteFolder(folderId);
+        if (data) {
+            setFolders(folders.filter((folder) => folder._id !== folderId));
+            setFolderId("");
+        } else {
+            alert("Error deleting folder.");
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -89,6 +99,7 @@ const ViewFolders = () => {
         <div>
             <h1>Notes</h1>
             <h3>Folders</h3>
+            {folders.length === 0 && <p>No folders created.</p>}
             <ul>
                 {/* display all folder names */}
                 {folders.map((folder) => (
@@ -114,16 +125,13 @@ const ViewFolders = () => {
                                             <button
                                                 name="note-title"
                                                 onClick={() =>
-                                                    navigate(
-                                                        `/user/notes/${note.title}`,
-                                                        {
-                                                            state: {
-                                                                userEmail,
-                                                                folderId: folder._id,
-                                                                noteTitle: note.title,
-                                                            },
-                                                        }
-                                                    )
+                                                    navigate(`/user/notes/${note._id}`, {
+                                                        state: {
+                                                            userEmail,
+                                                            folderId: folder._id,
+                                                            noteId: note._id,
+                                                        },
+                                                    })
                                                 }
                                             >
                                                 {note.title}
@@ -151,6 +159,13 @@ const ViewFolders = () => {
                     Create Note
                 </button>
             )}
+
+            {folderId && (
+                <button name="delete-folder" id="delete-folder" onClick={deleteFolders}>
+                    Delete Folder
+                </button>
+            )}
+
             <button onClick={goBack}>Home</button>
         </div>
     );
