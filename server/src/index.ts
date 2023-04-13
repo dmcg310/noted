@@ -59,6 +59,31 @@ app.post("/sign-in", async (req: Request, res: Response) => {
 	}
 });
 
+// delete account
+app.delete("/user/delete", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.body.email;
+
+		const user = await UserModel.findOne({ email: userEmail });
+
+		if (user) {
+			const notes = user.notes;
+
+			await NoteModel.deleteMany({ _id: { $in: notes } });
+
+			await UserModel.deleteOne({ email: userEmail });
+
+			await FolderModel.deleteMany({ user: userEmail });
+
+			res.status(200).json({ message: "User deleted" });
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
 // fetch a specific note
 app.get("/user/notes/:noteId", async (req: Request, res: Response) => {
 	try {

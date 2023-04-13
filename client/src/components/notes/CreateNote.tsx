@@ -24,7 +24,7 @@ const MakeNote = () => {
 	const handleSubmit = async () => {
 		const note = await createNote({
 			title,
-			content: convertToRaw(editorState.getCurrentContent()),
+			content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
 			userEmail,
 			folderId,
 		});

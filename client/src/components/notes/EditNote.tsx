@@ -9,12 +9,31 @@ import fetchSpecificNote from "../../api/notes/fetchSpecificNote";
 
 const EditNote = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const [autoSaveTime, setAutoSaveTime] = useState<NodeJS.Timeout>();
 
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	const noteTitle = location.state?.noteTitle;
 	const noteId = location.state?.noteId;
+
+	const handleAutoSave = async () => {
+		const contentState = editorState.getCurrentContent();
+		const contentRaw = convertToRaw(contentState);
+
+		const note = await editNote({
+			noteId: noteId,
+			title: noteTitle,
+			content: JSON.stringify(contentRaw),
+		});
+
+		if (!note) {
+			alert("Error editing note");
+			return;
+		}
+
+		console.log("Auto saved");
+	};
 
 	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -38,6 +57,13 @@ const EditNote = () => {
 
 	const handleEditorStateChange = (editorState: EditorState) => {
 		setEditorState(editorState);
+
+		// Auto save every 30 seconds
+		if (autoSaveTime) {
+			clearTimeout(autoSaveTime);
+		}
+
+		setAutoSaveTime(setTimeout(() => handleAutoSave(), 30000));
 	};
 
 	const fetchNote = async () => {
@@ -63,7 +89,7 @@ const EditNote = () => {
 					toolbar={toolbar}
 				/>
 				<button type="submit" name="submit" onClick={handleSubmit}>
-					Save
+					Save and Exit
 				</button>
 			</form>
 		</div>

@@ -15,10 +15,14 @@ const SignUp = () => {
 		e.preventDefault();
 
 		try {
-			const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
 			await signUp(userCredential.user.email!, password);
 
-			navigate("/user");
+			navigate("/");
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				if (error.code === "auth/email-already-in-use") {
