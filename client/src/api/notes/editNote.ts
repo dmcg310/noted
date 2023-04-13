@@ -1,20 +1,26 @@
 import { API_URL } from "../config";
 
-const editNote = async (noteId: string, noteTitle: string, noteContent: string) => {
-    const response = await fetch(`${API_URL}/user/notes/${noteId}/edit`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            noteId: noteId,
-            title: noteTitle,
-            content: noteContent,
-        }),
-    });
+interface Note {
+	noteId: string;
+	title: string;
+	content: string;
+}
 
-    const data = await response.json();
-    return data;
+const editNote = async (note: Note) => {
+	const response = await fetch(`${API_URL}/user/notes/${note.noteId}/edit`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			noteId: note.noteId,
+			title: note.title,
+			content: note.content,
+		}),
+	});
+
+	const data = await response.json();
+	return data;
 };
 
 export default editNote;

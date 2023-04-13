@@ -2,7 +2,7 @@ import { API_URL } from "../config";
 
 interface Note {
 	title: string;
-	content: string;
+	content: object;
 	userEmail: string;
 	folderId: string;
 }

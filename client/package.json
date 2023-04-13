@@ -12,12 +12,14 @@
     "@types/react-router-dom": "^5.3.3",
     "draft-js": "^0.11.7",
     "firebase": "^9.19.1",
+    "html-to-draftjs": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-router-dom": "^6.10.0"
   },
   "devDependencies": {
+    "@types/html-to-draftjs": "^1.4.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/react-draft-wysiwyg": "^1.13.4",

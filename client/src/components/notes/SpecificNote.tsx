@@ -71,7 +71,6 @@ const SpecficNote = () => {
 	return (
 		<div>
 			<h1>{note?.title}</h1>
-			// TODO: fix alignment of text
 			<Editor editorState={editorState} readOnly={true} onChange={() => {}} />
 			<button name="edit-note" id="edit-note-button" onClick={editNote}>
 				Edit Note

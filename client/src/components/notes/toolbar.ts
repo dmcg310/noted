@@ -1,15 +1,7 @@
 export const toolbar = {
-	options: ["inline", "blockType", "list", "textAlign"],
+	options: ["inline", "blockType", "list", "history"],
 	inline: {
-		options: [
-			"bold",
-			"italic",
-			"underline",
-			"strikethrough",
-			"monospace",
-			"superscript",
-			"subscript",
-		],
+		options: ["bold", "italic", "underline", "strikethrough", "monospace"],
 	},
 	blockType: {
 		inDropdown: false,
@@ -17,11 +9,7 @@ export const toolbar = {
 	},
 	list: {
 		inDropdown: false,
-		options: ["unordered", "ordered", "indent", "outdent"],
-	},
-	textAlign: {
-		inDropdown: false,
-		options: ["left", "center", "right", "justify"],
+		options: ["unordered", "ordered"],
 	},
 	history: {
 		inDropdown: false,
