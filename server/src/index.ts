@@ -82,6 +82,25 @@ app.delete("/user/delete", async (req: Request, res: Response) => {
 	}
 });
 
+// fetch all notes for a user
+app.get("/user/notes", async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.query.email;
+
+		const user = await UserModel.findOne({ email: userEmail });
+
+		if (user) {
+			// find all notes for a user
+			const notes = await NoteModel.find({ user: userEmail });
+			res.json(notes);
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
 // fetch a specific note
 app.get("/user/notes/:noteId", async (req: Request, res: Response) => {
 	try {
@@ -156,7 +175,7 @@ app.put("/user/notes/:noteId/edit", async (req: Request, res: Response) => {
 });
 
 // delete note
-app.delete("/user/:noteTitle/delete", async (req: Request, res: Response) => {
+app.delete("/user/:noteId/delete", async (req: Request, res: Response) => {
 	try {
 		const noteId = req.body.noteId;
 		const userEmail = req.body.user;

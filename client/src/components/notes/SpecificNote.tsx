@@ -25,7 +25,7 @@ const SpecficNote = () => {
 
 	const noteId = location.state?.noteId;
 	const userEmail = location.state?.userEmail;
-	const folderId = location.state?.folderId;
+	let folderId = location.state?.folderId;
 
 	const goHome = () => {
 		navigate(-1);
@@ -43,12 +43,24 @@ const SpecficNote = () => {
 	};
 
 	const deleteNote = async () => {
-		const data = await removeNote(noteId, userEmail, folderId);
+		if (folderId === null || folderId === undefined) {
+			// get folderid
+			const note = await fetchSpecificNote(noteId);
+			const data = await removeNote(noteId, userEmail, note.folder);
 
-		if (data) {
-			navigate(-1);
+			if (data) {
+				navigate(-1);
+			} else {
+				alert("Error deleting note");
+			}
 		} else {
-			alert("Error deleting note");
+			const data = await removeNote(noteId, userEmail, folderId);
+
+			if (data) {
+				navigate(-1);
+			} else {
+				alert("Error deleting note");
+			}
 		}
 	};
 

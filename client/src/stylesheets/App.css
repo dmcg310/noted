@@ -1,0 +1,10 @@
+/* hide the options list when not focused */
+.select-search-container:not(.select-search-is-multiple) .select-search-select {
+	display: none;
+}
+
+/* show the options list when focused */
+.select-search-container:not(.select-search-is-multiple).select-search-has-focus
+	.select-search-select {
+	display: block;
+}
