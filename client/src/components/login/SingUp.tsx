@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebaseConfig";
 import { FirebaseError } from "firebase/app";
@@ -26,9 +26,19 @@ const SignUp = () => {
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				if (error.code === "auth/email-already-in-use") {
-					alert("Email already in use");
+					alert("Email already in use, would you like to sign in?");
 				} else if (error.code === "auth/invalid-email") {
 					alert("Invalid email");
+				} else if (error.code === "auth/weak-password") {
+					alert("Password should be at least 6 characters");
+				} else if (error.code === "auth/network-request-failed") {
+					alert("Network error");
+				} else if (
+					error.code === "auth/account-exists-with-different-credential"
+				) {
+					alert("Account already exists with different credentials");
+				} else if (error.code === "auth/credential-already-in-use") {
+					alert("Credential already in use");
 				} else {
 					alert("Error signing up");
 				}
