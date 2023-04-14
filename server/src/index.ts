@@ -70,9 +70,7 @@ app.delete("/user/delete", async (req: Request, res: Response) => {
 			const notes = user.notes;
 
 			await NoteModel.deleteMany({ _id: { $in: notes } });
-
 			await UserModel.deleteOne({ email: userEmail });
-
 			await FolderModel.deleteMany({ user: userEmail });
 
 			res.status(200).json({ message: "User deleted" });
@@ -270,6 +268,10 @@ app.delete("/user/folders", async (req: Request, res: Response) => {
 			const folderNotesArray = folder.notes;
 
 			await NoteModel.deleteMany({ _id: { $in: folderNotesArray } });
+			await UserModel.updateMany(
+				{},
+				{ $pull: { notes: { $in: folderNotesArray } } }
+			);
 			await folder.deleteOne();
 			res.json({ message: "Folder deleted" });
 		} else {

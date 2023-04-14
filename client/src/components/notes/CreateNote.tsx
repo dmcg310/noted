@@ -39,6 +39,11 @@ const MakeNote = () => {
 	return (
 		<div className="create-note">
 			<h1>Create Note</h1>
+			<h4>Note</h4>
+			<p>
+				Autosave is disabled when creating a new note, it is only <br />
+				available when you are editing the note.
+			</p>
 			<form>
 				<label htmlFor="title">Title</label>
 				<input

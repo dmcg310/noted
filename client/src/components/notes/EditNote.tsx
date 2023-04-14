@@ -28,7 +28,7 @@ const EditNote = () => {
 		});
 
 		if (!note) {
-			alert("Error editing note");
+			alert("Error autosaving note");
 			return;
 		}
 
