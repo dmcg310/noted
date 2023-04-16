@@ -7,7 +7,6 @@ import fetchAllNotes from "../../api/notes/fetchAllNotes";
 import SelectSearch, {
 	SelectSearchOption,
 	SelectedOptionValue,
-	SelectSearchProps,
 } from "react-select-search";
 
 interface Folder {
@@ -28,12 +27,6 @@ interface Note {
 	updated: string;
 }
 
-interface CustomSelectSearchProps extends SelectSearchProps {
-	style?: {
-		display: string;
-	};
-}
-
 const ViewFolders = () => {
 	const [folders, setFolders] = useState<Folder[]>([]);
 	const [folderId, setFolderId] = useState<string>("");
@@ -52,10 +45,6 @@ const ViewFolders = () => {
 
 	const userEmail =
 		location.state?.userEmail ?? new URLSearchParams(location.search).get("email");
-
-	const goBack = () => {
-		navigate(-1);
-	};
 
 	const folderDropdown = async (folder: Folder) => {
 		setFolderId(folder._id);
@@ -146,17 +135,26 @@ const ViewFolders = () => {
 	}
 
 	return (
-		<div>
-			<h1>Notes</h1>
-			<h3>Folders</h3>
+		<div className="mt-20 w-11/12  h-screen bg-white rounded-md shadow-xl p-5">
+			<div className="flex justify-between">
+				<h1 className="text-5xl">Notes</h1>
+
+				<p
+					className="text-2xl align-center flex"
+					style={{ alignItems: "center" }}
+				>
+					Click on a folder to view notes.
+				</p>
+			</div>
+			<h3 className="text-4xl">Folders</h3>
 			<SelectSearch
 				options={searchedNotes}
 				search={true}
 				placeholder="Search"
 				onChange={handleOptionSelect}
 				value={searchTerm}
+				// external css
 			/>
-			<p>Click on a folder to view notes.</p>
 			{folders.length === 0 && <p>No folders created.</p>}
 			<ul>
 				{/* display all folder names */}
@@ -166,7 +164,10 @@ const ViewFolders = () => {
 							name="folder-name"
 							id="folder-name"
 							onClick={() => folderDropdown(folder)}
+							className="text-1xl bg-blue-400 rounded-md p-2 shadow-lg "
 						>
+							📁
+							<br />
 							{folder.name}
 						</button>
 
@@ -191,6 +192,7 @@ const ViewFolders = () => {
 														},
 													})
 												}
+												className="ml-8 text-1xl bg-blue-500 rounded-md p-2 shadow-lg"
 											>
 												{note.title}
 											</button>
@@ -222,7 +224,6 @@ const ViewFolders = () => {
 					Delete Folder
 				</button>
 			)}
-			<button onClick={goBack}>Home</button>
 		</div>
 	);
 };
