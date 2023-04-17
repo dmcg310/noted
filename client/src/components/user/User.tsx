@@ -14,10 +14,6 @@ const User = () => {
 
 	const userEmail = location.state?.userEmail;
 
-	const viewNotes = () => {
-		navigate("/user/folders", { state: { userEmail } });
-	};
-
 	const viewProfile = () => {
 		setShowProfile(!showProfile);
 	};
@@ -52,14 +48,14 @@ const User = () => {
 				style={{ alignItems: "center" }}
 			>
 				<button
-					className="text-3xl text-slate-600 bg-slate-100 hover:bg-slate-200 text py-2 px-4 rounded-md transition ease-in duration-100 shadow-md"
+					className="px-4 py-2 text-3xl transition duration-100 ease-in rounded-md shadow-md text-slate-600 bg-slate-100 hover:bg-slate-200 text"
 					onClick={() => navigate("/")}
 				>
 					noted.
 				</button>
 				<div>
 					<button
-						className="text-slate-600 mr-3 text-2xl hover:text-slate-400 text rounded-md transition ease-in duration-100"
+						className="mr-3 text-2xl transition duration-100 ease-in rounded-md text-slate-600 hover:text-slate-400 text"
 						onClick={viewProfile}
 					>
 						Profile
@@ -67,21 +63,21 @@ const User = () => {
 				</div>
 			</div>
 			<div className="h-screen bg-slate-200">
-				<div className="flex align-middle justify-center w-screen h-auto">
+				<div className="flex justify-center w-screen h-auto align-middle">
 					{/* profile view */}
 					<ViewFolders />
 					{showProfile && (
-						<div className="w-auto h-auto bg-white rounded-md shadow-lg p-10 mt-20">
-							<h1 className="text-5xl px-4 pb-4 text-slate-600">Profile</h1>
+						<div className="w-auto p-10 mt-20 bg-white rounded-md shadow-lg h-max">
+							<h1 className="px-4 pb-4 text-5xl text-slate-600">Profile</h1>
 							<hr />
-							<p className="py-3 px-4 text-3xl text-slate-600">
+							<p className="px-4 py-3 text-3xl text-slate-600">
 								{userEmail}
 							</p>
 							<button
 								name="sign-out"
 								id="sign-out"
 								onClick={SignOut}
-								className="bg-blue-400 px-8 py-4 text-white ml-3 text-2xl hover:bg-blue-300 text rounded-md transition ease-in duration-100"
+								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text"
 							>
 								Sign Out
 							</button>
@@ -89,7 +85,7 @@ const User = () => {
 								name="delete-account"
 								id="delete-account"
 								onClick={deleteUser}
-								className="bg-red-500 px-8 py-4 text-white ml-3 text-2xl hover:bg-red-400 text rounded-md transition ease-in duration-100"
+								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-red-500 rounded-md shadow-lg hover:bg-red-400 text"
 							>
 								Delete Account
 							</button>
@@ -97,7 +93,7 @@ const User = () => {
 								name="close"
 								id="close"
 								onClick={() => setShowProfile(false)}
-								className="mt-3 bg-gray-400 px-8 py-4 text-white ml-3 text-2xl hover:bg-gray-300 text rounded-md transition ease-in duration-100"
+								className="px-8 py-4 mt-3 ml-3 text-2xl text-white transition duration-100 ease-in bg-gray-400 rounded-md shadow-lg hover:bg-gray-300 text"
 							>
 								Close
 							</button>
@@ -105,7 +101,7 @@ const User = () => {
 					)}
 				</div>
 				<footer className="fixed bottom-0 w-full">
-					<p className="text-slate-500 ml-2">Darragh McGurk - {currentYear}</p>
+					<p className="ml-2 text-slate-500">Darragh McGurk - {currentYear}</p>
 				</footer>
 			</div>
 		</div>

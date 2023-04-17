@@ -8,6 +8,7 @@ import SelectSearch, {
 	SelectSearchOption,
 	SelectedOptionValue,
 } from "react-select-search";
+import { Icon } from "@iconify/react";
 
 interface Folder {
 	_id: string;
@@ -47,7 +48,11 @@ const ViewFolders = () => {
 		location.state?.userEmail ?? new URLSearchParams(location.search).get("email");
 
 	const folderDropdown = async (folder: Folder) => {
-		setFolderId(folder._id);
+		if (folderId === folder._id) {
+			setFolderId("");
+		} else {
+			setFolderId(folder._id);
+		}
 	};
 
 	const createNote = () => {
@@ -135,27 +140,33 @@ const ViewFolders = () => {
 	}
 
 	return (
-		<div className="mt-20 w-11/12  h-screen bg-white rounded-md shadow-xl p-5">
-			<div className="flex justify-between">
-				<h1 className="text-5xl">Notes</h1>
-
-				<p
-					className="text-2xl align-center flex"
-					style={{ alignItems: "center" }}
-				>
-					Click on a folder to view notes.
-				</p>
+		<div className="w-1/2 h-screen p-5 mt-20 bg-white rounded-md shadow-xl">
+			<div className="flex items-center justify-between pb-4 mb-2">
+				<h1 className="text-5xl text-slate-600">Notes</h1>
+				<SelectSearch
+					options={searchedNotes}
+					search={true}
+					placeholder="Search notes..."
+					onChange={handleOptionSelect}
+					value={searchTerm}
+					// external css
+				/>
 			</div>
-			<h3 className="text-4xl">Folders</h3>
-			<SelectSearch
-				options={searchedNotes}
-				search={true}
-				placeholder="Search"
-				onChange={handleOptionSelect}
-				value={searchTerm}
-				// external css
-			/>
-			{folders.length === 0 && <p>No folders created.</p>}
+			{folders.length === 0 && (
+				<p className="pb-4 text-3xl text-slate-600">No folders created.</p>
+			)}
+			<button
+				className="w-3/5 p-2 mb-4 text-3xl rounded-md shadow-lg bg-emerald-400 hover:bg-emerald-300 text-slate-100"
+				onClick={() =>
+					navigate(`/user/folders/create`, {
+						state: {
+							userEmail,
+						},
+					})
+				}
+			>
+				Create Folder
+			</button>
 			<ul>
 				{/* display all folder names */}
 				{folders.map((folder) => (
@@ -164,20 +175,29 @@ const ViewFolders = () => {
 							name="folder-name"
 							id="folder-name"
 							onClick={() => folderDropdown(folder)}
-							className="text-1xl bg-blue-400 rounded-md p-2 shadow-lg "
+							className="w-3/5 p-2 mb-4 text-3xl transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text-slate-100"
 						>
-							📁
-							<br />
-							{folder.name}
+							<div className="flex items-center gap-4 align-middle">
+								<Icon icon="material-symbols:folder" color="white" />
+								{folder.name}
+							</div>
 						</button>
-
+						{/* display create note button if no notes in the selected folder */}
+						{!isFetchingNotes && notes.length === 0 && (
+							<button
+								name="create-note"
+								id="create-note"
+								onClick={createNote}
+								className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in rounded-md shadow-lg bg-emerald-500 hover:bg-emerald-400 text-slate-100"
+							>
+								<div className="flex justify-center text-center">
+									<Icon icon="material-symbols:add" />
+								</div>
+							</button>
+						)}
 						{/* display all notes in the selected folder */}
 						{folder._id === folderId && notes.length > 0 && (
 							<ul>
-								{isFetchingNotes && <li>Loading notes...</li>}
-								{!isFetchingNotes && notes.length === 0 && (
-									<li>No notes in this folder.</li>
-								)}
 								{!isFetchingNotes &&
 									notes.map((note) => (
 										<li key={note._id}>
@@ -192,35 +212,44 @@ const ViewFolders = () => {
 														},
 													})
 												}
-												className="ml-8 text-1xl bg-blue-500 rounded-md p-2 shadow-lg"
+												className="w-2/5 p-2 mb-4 ml-8 text-3xl transition duration-100 ease-in bg-blue-500 rounded-md shadow-lg hover:bg-blue-400 text-slate-100"
 											>
-												{note.title}
+												<div className="flex gap-4">
+													<Icon
+														icon="ic:outline-event-note"
+														color="white"
+													/>
+													{note.title}
+												</div>
 											</button>
 										</li>
 									))}
+								<li>
+									{folderId && (
+										<button
+											name="create-note"
+											id="create-note"
+											onClick={createNote}
+											className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in rounded-md shadow-lg bg-emerald-500 hover:bg-emerald-400 text-slate-100"
+										>
+											<div className="flex justify-center text-center">
+												<Icon icon="material-symbols:add" />
+											</div>
+										</button>
+									)}
+								</li>
 							</ul>
 						)}
 					</li>
 				))}
 			</ul>
-			<button
-				onClick={() =>
-					navigate(`/user/folders/create`, {
-						state: {
-							userEmail,
-						},
-					})
-				}
-			>
-				Create Folder
-			</button>
 			{folderId && (
-				<button name="create-note" id="create-note" onClick={createNote}>
-					Create Note
-				</button>
-			)}
-			{folderId && (
-				<button name="delete-folder" id="delete-folder" onClick={deleteFolders}>
+				<button
+					name="delete-folder"
+					id="delete-folder"
+					onClick={deleteFolders}
+					className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in bg-red-500 rounded-md shadow-lg hover:bg-red-400 text-slate-100"
+				>
 					Delete Folder
 				</button>
 			)}

@@ -11,27 +11,26 @@ import ViewFolders from "./components/folders/ViewFolders";
 import CreateFolder from "./components/folders/CreateFolder";
 
 function App() {
-    return (
-        <div className="App">
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Index />} />
+	return (
+		<div className="App">
+			<Router>
+				<Routes>
+					<Route path="/" element={<Index />} />
 
-                    <Route path="/sign-in" element={<SignIn />} />
-                    <Route path="/sign-up" element={<SignUp />} />
+					<Route path="/sign-in" element={<SignIn />} />
+					<Route path="/sign-up" element={<SignUp />} />
 
-                    <Route path="/user" element={<User />} />
+					<Route path="/user" element={<User />} />
 
-                    <Route path="/user/folders" element={<ViewFolders />} />
-                    <Route path="/user/folders/create" element={<CreateFolder />} />
+					<Route path="/user/folders/create" element={<CreateFolder />} />
 
-                    <Route path="/user/notes/create" element={<CreateNote />} />
-                    <Route path="/user/notes/:noteId" element={<SpecficNote />} />
-                    <Route path="/user/notes/:noteId/edit" element={<EditNote />} />
-                </Routes>
-            </Router>
-        </div>
-    );
+					<Route path="/user/notes/create" element={<CreateNote />} />
+					<Route path="/user/notes/:noteId" element={<SpecficNote />} />
+					<Route path="/user/notes/:noteId/edit" element={<EditNote />} />
+				</Routes>
+			</Router>
+		</div>
+	);
 }
 
 export default App;

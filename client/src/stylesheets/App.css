@@ -2,13 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
-/* hide the options list when not focused */
+/* Hide the options list when not focused */
 .select-search-container:not(.select-search-is-multiple) .select-search-select {
 	display: none;
 }
 
-/* show the options list when focused */
+/* Show the options list when focused */
 .select-search-container:not(.select-search-is-multiple).select-search-has-focus
 	.select-search-select {
 	display: block;
+}
+
+/* Style the container of the select search component */
+.select-search-container {
+	display: inline-block;
+	position: relative;
+}
+
+/* Style the input element of the select search component */
+.select-search-input {
+	padding: 0.5rem;
+	border: 2px solid #cbd5e1;
+	border-radius: 0.25rem;
+	width: 100%;
+}
+
+.select-search-input:focus {
+	outline: none;
+	border-color: #3b82f6;
+}
+
+/* Style the options list of the select search component */
+.select-search-select {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 10;
+	width: 100%;
+	max-height: 10rem;
+	overflow-y: auto;
+	background-color: #fff;
+	border: 1px solid #cbd5e1;
+	border-top: none;
+	border-radius: 0 0 0.25rem 0.25rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the individual options of the select search component */
+.select-search-option {
+	display: block;
+	padding: 0.5rem;
+	cursor: pointer;
+}
+
+/* Style the selected option of the select search component */
+.select-search-selected {
+	font-weight: bold;
+}
+
+/* Style the hover state of the options of the select search component */
+.select-search-option:hover,
+.select-search-option:focus {
+	background-color: #fff;
+}
+
+/* Style the multiple select container of the select search component */
+.select-search-options li {
+	display: flex;
+	flex-direction: column;
+}
+
+.select-search-options li:last-child {
+	margin-bottom: 0;
 }
