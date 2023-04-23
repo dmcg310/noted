@@ -214,7 +214,7 @@ const ViewFolders = () => {
 												}
 												className="w-2/5 p-2 mb-4 ml-8 text-3xl transition duration-100 ease-in bg-blue-500 rounded-md shadow-lg hover:bg-blue-400 text-slate-100"
 											>
-												<div className="flex gap-4">
+												<div className="flex items-center gap-4">
 													<Icon
 														icon="ic:outline-event-note"
 														color="white"

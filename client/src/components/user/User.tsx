@@ -66,7 +66,7 @@ const User = () => {
 				<div className="flex justify-center w-screen h-auto align-middle">
 					<ViewFolders />
 					{showProfile && (
-						<div className="w-auto p-10 mt-20 bg-white rounded-md shadow-lg h-max">
+						<div className="fixed w-auto p-10 mt-20 bg-white rounded-md shadow-lg right-4 h-max">
 							<h1 className="px-4 pb-4 text-5xl text-slate-600">Profile</h1>
 							<hr />
 							<p className="px-4 py-3 text-3xl text-slate-600">

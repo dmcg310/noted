@@ -6,6 +6,7 @@ import editNote from "../../api/notes/editNote";
 import { toolbar } from "./toolbar";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import fetchSpecificNote from "../../api/notes/fetchSpecificNote";
+import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 
 const EditNote = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -108,13 +109,15 @@ const EditNote = () => {
 							>
 								Content
 							</label>
-							<Editor
-								editorState={editorState}
-								onEditorStateChange={handleEditorStateChange}
-								toolbar={toolbar}
-								toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0"
-								editorClassName="px-4 py-2 mt-3 border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 h-160 overflow-y-auto"
-							/>
+							<GrammarlyEditorPlugin clientId="client_SGS7Md7dZHLk5fBGYM2cm2">
+								<Editor
+									editorState={editorState}
+									onEditorStateChange={handleEditorStateChange}
+									toolbar={toolbar}
+									toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0"
+									editorClassName="px-4 py-2 mt-3 border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 h-160 overflow-y-auto"
+								/>
+							</GrammarlyEditorPlugin>
 							<button
 								type="submit"
 								name="submit"
