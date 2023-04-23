@@ -80,18 +80,53 @@ const EditNote = () => {
 
 	return (
 		<div>
-			<h1>Editing {noteTitle}</h1>
-			<form>
-				<label htmlFor="note-content">Note Content</label>
-				<Editor
-					editorState={editorState}
-					onEditorStateChange={handleEditorStateChange}
-					toolbar={toolbar}
-				/>
-				<button type="submit" name="submit" onClick={handleSubmit}>
-					Save and Exit
+			<div
+				id="user-header"
+				className="w-screen flex justify-between p-2.5 pl-3 fixed bg-white"
+				style={{ alignItems: "center" }}
+			>
+				<button
+					className="px-4 py-2 text-3xl transition duration-100 ease-in rounded-md shadow-md text-slate-600 bg-slate-100 hover:bg-slate-200 text"
+					onClick={() => navigate("/")}
+				>
+					noted.
 				</button>
-			</form>
+			</div>
+			<div>
+				<div className="flex justify-center align-middle bg-slate-200">
+					<div className="w-1/2 h-screen p-5 mt-20 bg-white rounded-md shadow-xl">
+						<h1 className="pb-3 text-5xl text-slate-600">
+							Editing, <span className="text-blue-500">{noteTitle}</span>
+						</h1>
+						<p className="pl-1 text-1xl text-slate-600">
+							Autosave is enabled. Your note will be saved every 30 seconds.
+						</p>
+						<form className="mt-3">
+							<label
+								htmlFor="note-content"
+								className="pl-1 text-2xl text-slate-600"
+							>
+								Content
+							</label>
+							<Editor
+								editorState={editorState}
+								onEditorStateChange={handleEditorStateChange}
+								toolbar={toolbar}
+								toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0"
+								editorClassName="px-4 py-2 mt-3 border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 h-160 overflow-y-auto"
+							/>
+							<button
+								type="submit"
+								name="submit"
+								onClick={handleSubmit}
+								className="px-8 py-4 mt-4 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text"
+							>
+								Save and Exit
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
