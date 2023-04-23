@@ -64,7 +64,6 @@ const User = () => {
 			</div>
 			<div className="h-screen bg-slate-200">
 				<div className="flex justify-center w-screen h-auto align-middle">
-					{/* profile view */}
 					<ViewFolders />
 					{showProfile && (
 						<div className="w-auto p-10 mt-20 bg-white rounded-md shadow-lg h-max">
