@@ -18,6 +18,16 @@ const User = () => {
 		setShowProfile(!showProfile);
 	};
 
+	const handleSignOut = () => {
+		SignOut().then((response) => {
+			if (response) {
+				navigate("/");
+			} else {
+				alert("Error signing out");
+			}
+		});
+	};
+
 	const deleteUser = async () => {
 		const user = auth.currentUser;
 		const password = prompt("Enter your password to delete your account");
@@ -75,7 +85,7 @@ const User = () => {
 							<button
 								name="sign-out"
 								id="sign-out"
-								onClick={SignOut}
+								onClick={handleSignOut}
 								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text"
 							>
 								Sign Out
