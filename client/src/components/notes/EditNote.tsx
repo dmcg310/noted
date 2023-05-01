@@ -3,10 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import editNote from "../../api/notes/editNote";
-import { toolbar } from "./toolbar";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import fetchSpecificNote from "../../api/notes/fetchSpecificNote";
 import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
+import { Toolbar } from "./toolbar";
 
 const EditNote = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -113,7 +113,7 @@ const EditNote = () => {
 								<Editor
 									editorState={editorState}
 									onEditorStateChange={handleEditorStateChange}
-									toolbar={toolbar}
+									toolbar={Toolbar}
 									toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0"
 									editorClassName="px-4 py-2 mt-3 border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 h-160 overflow-y-auto"
 								/>
