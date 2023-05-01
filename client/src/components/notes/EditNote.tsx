@@ -7,6 +7,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import fetchSpecificNote from "../../api/notes/fetchSpecificNote";
 import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 import { Toolbar } from "./toolbar";
+import removeNote from "../../api/notes/removeNote";
 
 const EditNote = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -16,7 +17,10 @@ const EditNote = () => {
 	const navigate = useNavigate();
 
 	const noteTitle = location.state?.noteTitle;
+	console.log(noteTitle);
 	const noteId = location.state?.noteId;
+	let folderId = location.state?.folderId;
+	const userEmail = location.state?.userEmail;
 
 	const handleAutoSave = async () => {
 		const contentState = editorState.getCurrentContent();
@@ -75,6 +79,29 @@ const EditNote = () => {
 		setEditorState(newEditorState);
 	};
 
+	const deleteNote = async () => {
+		console.log("deleting note");
+		if (folderId === null || folderId === undefined) {
+			// get folderid
+			const note = await fetchSpecificNote(noteId);
+			const data = await removeNote(noteId, userEmail, note.folder);
+
+			if (data) {
+				navigate(-1);
+			} else {
+				alert("Error deleting note");
+			}
+		} else {
+			const data = await removeNote(noteId, userEmail, folderId);
+
+			if (data) {
+				navigate(-1);
+			} else {
+				alert("Error deleting note");
+			}
+		}
+	};
+
 	useEffect(() => {
 		fetchNote();
 	}, []);
@@ -125,6 +152,15 @@ const EditNote = () => {
 								className="px-8 py-4 mt-4 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text"
 							>
 								Save and Exit
+							</button>
+							<button
+								name="delete"
+								id="delete"
+								className="px-8 py-4 mt-4 ml-4 text-2xl text-white transition duration-100 ease-in bg-red-400 rounded-md shadow-lg hover:bg-red-300 text"
+								type="button"
+								onClick={deleteNote}
+							>
+								Delete Note
 							</button>
 						</form>
 					</div>

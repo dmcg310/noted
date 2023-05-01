@@ -209,6 +209,7 @@ const ViewFolders = () => {
 															userEmail,
 															folderId: folder._id,
 															noteId: note._id,
+															noteTitle: note.title,
 														},
 													})
 												}
