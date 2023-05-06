@@ -57,7 +57,7 @@ const EditNote = () => {
 			return;
 		}
 
-		navigate(-2);
+		navigate("/");
 	};
 
 	const handleEditorStateChange = (editorState: EditorState) => {
@@ -87,7 +87,7 @@ const EditNote = () => {
 			const data = await removeNote(noteId, userEmail, note.folder);
 
 			if (data) {
-				navigate(-1);
+				navigate("/");
 			} else {
 				alert("Error deleting note");
 			}
@@ -95,7 +95,7 @@ const EditNote = () => {
 			const data = await removeNote(noteId, userEmail, folderId);
 
 			if (data) {
-				navigate(-1);
+				navigate("/");
 			} else {
 				alert("Error deleting note");
 			}

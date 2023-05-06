@@ -75,3 +75,45 @@
 .select-search-options li:last-child {
 	margin-bottom: 0;
 }
+
+.rdw-dropdown-optionwrapper {
+	position: fixed !important;
+	width: 2% !important;
+}
+
+.rdw-colorpicker-modal,
+.rdw-link-modal,
+.rdw-embedded-modal,
+.rdw-emoji-modal,
+.rdw-image-modal {
+	position: fixed !important;
+	top: 50px !important;
+	left: auto !important;
+	height: auto !important;
+}
+
+#mobile {
+	background-color: grey;
+	height: 100vh;
+	text-align: center;
+	color: white;
+	font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+	#desktop {
+		display: none;
+	}
+	#mobile {
+		display: block;
+	}
+}
+
+@media (min-width: 1000px) {
+	#desktop {
+		display: block;
+	}
+	#mobile {
+		display: none;
+	}
+}

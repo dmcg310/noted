@@ -8,6 +8,7 @@ export const Toolbar = {
 		"link",
 		"embedded",
 		"emoji",
+		"image",
 		"history",
 	],
 	inline: {
