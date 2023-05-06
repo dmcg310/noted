@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebaseConfig";
-import createNoteImage from "../../../client/src/assets/Create-Note.png";
 
 const Index = () => {
 	const navigate = useNavigate();
@@ -44,7 +43,7 @@ const Index = () => {
 						<hr className="w-1/2 mx-auto mt-3 mb-3 border-2 border-slate-200" />
 					</h3>
 					<div className="flex">
-						<div className="w-1/2 pb-3 text-2xl text-slate-600">
+						<div className="pb-3 text-2xl text-slate-600">
 							<p className="pr-2 text-2xl text-center pb-7 text-slate-600">
 								With our intuitive and user-friendly interface, you'll be
 								able to take and organize notes like a{" "}
@@ -58,13 +57,10 @@ const Index = () => {
 								<span className="underline text-emerald-500">
 									create multiple folders, add notes to folders,
 								</span>{" "}
+								and even real-time{" "}
 								<span className="underline text-emerald-500">
-									spellcheck,
+									spellchecking.
 								</span>{" "}
-								and even a handy{" "}
-								<span className="underline text-emerald-500">
-									todo list.
-								</span>
 							</p>
 							<p className="pr-2 text-2xl text-center pb-7 text-slate-600">
 								Plus, with our{" "}
@@ -80,17 +76,6 @@ const Index = () => {
 								needs. as versatile as you are. <br />
 								So why wait? Sign up today and start taking notes!
 							</p>
-						</div>
-
-						<div className="w-2/3">
-							<img
-								className="float-right mb-5 ml-5 border rounded-md shadow-xl border-slate-200"
-								src={createNoteImage}
-								alt="create-note"
-								width={800}
-								height={800}
-								style={{ objectFit: "cover" }}
-							/>
 						</div>
 					</div>
 
