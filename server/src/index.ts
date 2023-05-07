@@ -8,7 +8,6 @@ import FolderModel from "./models/Folder";
 
 config();
 
-const PORT = 5000;
 const app = express();
 
 const bcrypt = require("bcryptjs");
@@ -305,8 +304,8 @@ app.delete("/user/folders", async (req: Request, res: Response) => {
 mongoose.connect(process.env.MONGO_URL!).then(() => {
 	console.log("Connecting!");
 	try {
-		app.listen(PORT);
-		console.log(`Server started on port ${PORT}!`);
+		app.listen(process.env.PORT || 5000);
+		console.log(`Server started!`);
 	} catch (error) {
 		console.log(error);
 		console.log("Server failed to start");
