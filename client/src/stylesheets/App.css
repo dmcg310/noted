@@ -91,3 +91,7 @@
 	left: auto !important;
 	height: auto !important;
 }
+
+#user-header {
+	z-index: 1000;
+}
