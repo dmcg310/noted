@@ -52,7 +52,7 @@ const MakeNote = () => {
 				</button>
 			</div>
 			<div className="flex justify-center align-middle bg-slate-200">
-				<div className="w-1/2 h-screen p-5 mt-2 bg-white rounded-md shadow-xl">
+				<div className="w-1/2 h-full p-5 mt-2 bg-white rounded-md shadow-xl max-md:w-5/6">
 					<div className="pb-4 mb-2">
 						<h1 className="pb-3 text-5xl text-slate-600">Create Note</h1>
 						<p className="pl-1 text-1xl text-slate-600">
@@ -87,7 +87,7 @@ const MakeNote = () => {
 									editorState={editorState}
 									onEditorStateChange={handleEditorStateChange}
 									toolbar={Toolbar}
-									toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0"
+									toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0  max-md:static max-md:mt-0 max-md:top-auto max-md:z-0 max-md:overflow-x-hidden max-md:w-full"
 									editorClassName="px-4 py-2 mt-3 border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 h-160 overflow-y-auto"
 									placeholder="Enter your note here..."
 								/>

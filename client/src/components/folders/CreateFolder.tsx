@@ -44,7 +44,7 @@ const CreateFolder = () => {
 				</button>
 			</div>
 			<div className="flex items-center justify-center h-screen bg-slate-200">
-				<div className="w-1/3 h-auto p-8 bg-white rounded-md shadow-lg">
+				<div className="w-1/3 h-auto p-8 bg-white rounded-md shadow-lg max-md:w-5/6">
 					<h1 className="pb-3 text-3xl text-slate-700">Create Folder</h1>
 					<form method="POST">
 						<div className="flex flex-col">

@@ -72,21 +72,23 @@ const User = () => {
 					</button>
 				</div>
 			</div>
-			<div className="h-screen bg-slate-200">
-				<div className="flex justify-center w-screen h-auto align-middle">
+			<div className="min-h-screen bg-slate-200">
+				<div className="flex justify-center w-screen h-auto">
 					<ViewFolders />
 					{showProfile && (
-						<div className="fixed w-auto p-10 mt-20 bg-white rounded-md shadow-lg right-4 h-max">
-							<h1 className="px-4 pb-4 text-5xl text-slate-600">Profile</h1>
+						<div className="fixed w-auto p-10 mt-20 bg-white rounded-md shadow-lg right-4 h-max max-md:w-3/5">
+							<h1 className="px-4 pb-4 text-5xl text-slate-600 max-md:text-4xl">
+								Profile
+							</h1>
 							<hr />
-							<p className="px-4 py-3 text-3xl text-slate-600">
+							<p className="px-4 py-3 text-3xl text-slate-600 max-md:text-sm">
 								{userEmail}
 							</p>
 							<button
 								name="sign-out"
 								id="sign-out"
 								onClick={handleSignOut}
-								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text"
+								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text max-md:w-full"
 							>
 								Sign Out
 							</button>
@@ -94,7 +96,7 @@ const User = () => {
 								name="delete-account"
 								id="delete-account"
 								onClick={deleteUser}
-								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-red-500 rounded-md shadow-lg hover:bg-red-400 text"
+								className="px-8 py-4 ml-3 text-2xl text-white transition duration-100 ease-in bg-red-500 rounded-md shadow-lg hover:bg-red-400 text max-md:w-full max-md:mt-3"
 							>
 								Delete Account
 							</button>
@@ -102,7 +104,7 @@ const User = () => {
 								name="close"
 								id="close"
 								onClick={() => setShowProfile(false)}
-								className="px-8 py-4 mt-3 ml-3 text-2xl text-white transition duration-100 ease-in bg-gray-400 rounded-md shadow-lg hover:bg-gray-300 text"
+								className="px-8 py-4 mt-3 ml-3 text-2xl text-white transition duration-100 ease-in bg-gray-400 rounded-md shadow-lg hover:bg-gray-300 text max-md:w-full"
 							>
 								Close
 							</button>

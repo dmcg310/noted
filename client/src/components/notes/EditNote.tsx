@@ -17,7 +17,6 @@ const EditNote = () => {
 	const navigate = useNavigate();
 
 	const noteTitle = location.state?.noteTitle;
-	console.log(noteTitle);
 	const noteId = location.state?.noteId;
 	let folderId = location.state?.folderId;
 	const userEmail = location.state?.userEmail;
@@ -122,7 +121,7 @@ const EditNote = () => {
 			</div>
 			<div>
 				<div className="flex justify-center align-middle bg-slate-200">
-					<div className="w-1/2 h-screen p-5 mt-20 bg-white rounded-md shadow-xl">
+					<div className="w-1/2 h-full p-5 mt-20 bg-white rounded-md shadow-xl max-md:w-5/6">
 						<h1 className="pb-3 text-5xl text-slate-600">
 							Editing, <span className="text-blue-500">{noteTitle}</span>
 						</h1>
@@ -141,7 +140,7 @@ const EditNote = () => {
 									editorState={editorState}
 									onEditorStateChange={handleEditorStateChange}
 									toolbar={Toolbar}
-									toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0"
+									toolbarClassName="px-4 py-2 flex fixed mt-3 top-0 z-50 overflow-x-auto border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 justify-center ml-0  max-md:static max-md:mt-0 max-md:top-auto max-md:z-0 max-md:overflow-x-hidden max-md:w-full"
 									editorClassName="px-4 py-2 mt-3 border-2 border-slate-200 rounded-md shadow-sm bg-zinc-100 h-160 overflow-y-auto"
 								/>
 							</GrammarlyEditorPlugin>
@@ -149,14 +148,14 @@ const EditNote = () => {
 								type="submit"
 								name="submit"
 								onClick={handleSubmit}
-								className="px-8 py-4 mt-4 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text"
+								className="px-8 py-4 mt-4 text-2xl text-white transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text max-md:w-full"
 							>
 								Save and Exit
 							</button>
 							<button
 								name="delete"
 								id="delete"
-								className="px-8 py-4 mt-4 ml-4 text-2xl text-white transition duration-100 ease-in bg-red-400 rounded-md shadow-lg hover:bg-red-300 text"
+								className="px-8 py-4 mt-4 ml-4 text-2xl text-white transition duration-100 ease-in bg-red-400 rounded-md shadow-lg hover:bg-red-300 text max-md:w-full max-md:mt-3 max-md:ml-0"
 								type="button"
 								onClick={deleteNote}
 							>

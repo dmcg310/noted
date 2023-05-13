@@ -35,8 +35,8 @@ const Index = () => {
 					noted.
 				</button>
 			</div>
-			<div className="flex justify-center min-h-screen align-middle bg-slate-200 ">
-				<div className="w-1/2 mt-20 bg-white rounded-md shadow-xl h-max p-7">
+			<div className="flex justify-center min-h-screen align-middle bg-slate-200">
+				<div className="w-1/2 mt-20 bg-white rounded-md shadow-xl h-max p-7 max-md:w-5/6">
 					<h1 className="pb-3 text-6xl text-center text-slate-600">noted.</h1>
 					<h3 className="pb-3 text-3xl text-center text-slate-600">
 						Welcome to noted!

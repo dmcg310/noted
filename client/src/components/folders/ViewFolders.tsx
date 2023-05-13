@@ -81,6 +81,8 @@ const ViewFolders = () => {
 			state: {
 				noteId: selectedValue,
 				userEmail,
+				noteTitle: searchedNotes.find((note) => note.value === selectedValue)
+					?.name,
 			},
 		});
 	};
@@ -140,9 +142,11 @@ const ViewFolders = () => {
 	}
 
 	return (
-		<div className="w-1/2 h-screen p-5 mt-20 bg-white rounded-md shadow-xl">
+		<div className="w-1/2 h-screen p-5 mt-20 bg-white rounded-md shadow-xl max-md:w-5/6">
 			<div className="flex items-center justify-between pb-4 mb-2">
-				<h1 className="text-5xl text-slate-600">Notes</h1>
+				<h1 className="text-5xl text-slate-600 max-md:text-4xl max-md:pr-3">
+					Notes
+				</h1>
 				<SelectSearch
 					options={searchedNotes}
 					search={true}
@@ -156,7 +160,7 @@ const ViewFolders = () => {
 				<p className="pb-4 text-3xl text-slate-600">No folders created.</p>
 			)}
 			<button
-				className="w-3/5 p-2 mb-4 text-3xl rounded-md shadow-lg bg-emerald-400 hover:bg-emerald-300 text-slate-100"
+				className="w-3/5 p-2 mb-4 text-3xl rounded-md shadow-lg bg-emerald-400 hover:bg-emerald-300 text-slate-100 max-md:w-full"
 				onClick={() =>
 					navigate(`/user/folders/create`, {
 						state: {
@@ -175,7 +179,7 @@ const ViewFolders = () => {
 							name="folder-name"
 							id="folder-name"
 							onClick={() => folderDropdown(folder)}
-							className="w-3/5 p-2 mb-4 text-3xl transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg hover:bg-blue-300 text-slate-100"
+							className="w-3/5 p-2 mb-4 text-3xl transition duration-100 ease-in bg-blue-400 rounded-md shadow-lg max-md:w-full hover:bg-blue-300 text-slate-100"
 						>
 							<div className="flex items-center gap-4 align-middle">
 								<Icon icon="material-symbols:folder" color="white" />
@@ -188,7 +192,7 @@ const ViewFolders = () => {
 								name="create-note"
 								id="create-note"
 								onClick={createNote}
-								className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in rounded-md shadow-lg bg-emerald-500 hover:bg-emerald-400 text-slate-100"
+								className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in rounded-md shadow-lg bg-emerald-500 hover:bg-emerald-400 text-slate-100 max-md:w-full"
 							>
 								<div className="flex justify-center text-center">
 									<Icon icon="material-symbols:add" />
@@ -213,7 +217,7 @@ const ViewFolders = () => {
 														},
 													})
 												}
-												className="w-2/5 p-2 mb-4 ml-8 text-3xl transition duration-100 ease-in bg-blue-500 rounded-md shadow-lg hover:bg-blue-400 text-slate-100"
+												className="w-2/5 p-2 mb-4 ml-8 text-3xl transition duration-100 ease-in bg-blue-500 rounded-md shadow-lg hover:bg-blue-400 text-slate-100 max-md:w-5/6"
 											>
 												<div className="flex items-center gap-4">
 													<Icon
@@ -231,7 +235,7 @@ const ViewFolders = () => {
 											name="create-note"
 											id="create-note"
 											onClick={createNote}
-											className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in rounded-md shadow-lg bg-emerald-500 hover:bg-emerald-400 text-slate-100"
+											className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in rounded-md shadow-lg max-md:w-5/6 bg-emerald-500 hover:bg-emerald-400 text-slate-100"
 										>
 											<div className="flex justify-center text-center">
 												<Icon icon="material-symbols:add" />
@@ -249,7 +253,7 @@ const ViewFolders = () => {
 					name="delete-folder"
 					id="delete-folder"
 					onClick={deleteFolders}
-					className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in bg-red-500 rounded-md shadow-lg hover:bg-red-400 text-slate-100"
+					className="w-2/5 px-8 py-4 mb-4 ml-8 text-2xl transition duration-100 ease-in bg-red-500 rounded-md shadow-lg hover:bg-red-400 text-slate-100 max-md:w-5/6"
 				>
 					Delete Folder
 				</button>

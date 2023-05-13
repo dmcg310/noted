@@ -77,7 +77,7 @@ const SignIn = () => {
 				</button>
 			</div>
 			<div className="flex items-center justify-center h-screen bg-slate-200">
-				<div className="w-1/3 h-auto p-8 bg-white rounded-md shadow-lg">
+				<div className="w-1/3 h-auto p-8 bg-white rounded-md shadow-lg max-md:w-5/6">
 					<h1 className="pb-3 text-3xl text-slate-700">Sign in</h1>
 					<p
 						id="user-not-found"
