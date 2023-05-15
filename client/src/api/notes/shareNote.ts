@@ -6,7 +6,7 @@ interface NoteShare {
 }
 
 const shareNote = async ({ noteId, email }: NoteShare) => {
-	const response = await fetch(`http://localhost:5000/user/notes/share/${noteId}`, {
+	const response = await fetch(`${API_URL}/user/notes/share/${noteId}`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
