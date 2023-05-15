@@ -120,8 +120,8 @@ const EditNote = () => {
 				</button>
 			</div>
 			<div>
-				<div className="flex justify-center align-middle bg-slate-200">
-					<div className="w-1/2 h-full p-5 mt-20 bg-white rounded-md shadow-xl max-md:w-5/6">
+				<div className="flex justify-center min-h-screen align-middle bg-slate-200">
+					<div className="w-1/2 p-5 mt-20 bg-white rounded-md shadow-xl h-max max-md:w-5/6">
 						<h1 className="pb-3 text-5xl text-slate-600">
 							Editing, <span className="text-blue-500">{noteTitle}</span>
 						</h1>
@@ -160,6 +160,21 @@ const EditNote = () => {
 								onClick={deleteNote}
 							>
 								Delete Note
+							</button>
+							<button
+								name="share"
+								id="share"
+								className="px-8 py-4 mt-4 ml-4 text-2xl text-white transition duration-100 ease-in bg-green-400 rounded-md shadow-lg hover:bg-green-300 text max-md:w-full max-md:mt-3 max-md:ml-0"
+								type="button"
+								onClick={() =>
+									navigate(`/user/notes/share/${noteId}`, {
+										state: {
+											noteId: noteId,
+										},
+									})
+								}
+							>
+								Share Note
 							</button>
 						</form>
 					</div>

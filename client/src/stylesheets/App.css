@@ -92,6 +92,8 @@
 	height: auto !important;
 }
 
-#user-header {
-	z-index: 1000;
+@media (max-width: 768px) {
+	#user-header {
+		z-index: 1000;
+	}
 }

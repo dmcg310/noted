@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, response } from "express";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import NoteModel from "./models/Note";
@@ -300,12 +300,67 @@ app.delete("/user/folders", async (req: Request, res: Response) => {
 	}
 });
 
+// share note with user
+app.post("/user/notes/share/:noteId", async (req: Request, res: Response) => {
+	try {
+		const email = req.body.email;
+		const noteId = req.body.noteId;
+
+		const user = await UserModel.findOne({ email });
+
+		const folder = await FolderModel.findOne({
+			name: "Shared with you",
+			user: email,
+		});
+		if (user) {
+			if (!folder) {
+				const newFolder = new FolderModel({
+					name: "Shared with you",
+					user: email,
+					created: new Date(),
+					notes: [],
+				});
+
+				await newFolder.save();
+
+				newFolder.notes.push(noteId);
+				await newFolder.save();
+
+				user.notes.push(noteId);
+				await user.save();
+
+				res.json({ message: "Note shared" });
+			} else {
+				folder.notes.push(noteId);
+				await folder.save();
+			}
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// check if user exists
+app.get("/user/exists/:email", async (req: Request, res: Response) => {
+	try {
+		const email = req.query.email || req.params.email;
+
+		const exists = await UserModel.exists({ email });
+
+		res.json({ exists });
+	} catch (error) {
+		console.log(error);
+	}
+});
+
 // db connection
 mongoose.connect(process.env.MONGO_URL!).then(() => {
 	console.log("Connecting!");
 	try {
 		app.listen(process.env.PORT || 5000);
-		console.log(`Server started!`);
+		console.log(`Server started! Listening on port ${process.env.PORT || 5000}`);
 	} catch (error) {
 		console.log(error);
 		console.log("Server failed to start");

@@ -7,6 +7,7 @@ import User from "./components/user/User";
 import CreateNote from "./components/notes/CreateNote";
 import EditNote from "./components/notes/EditNote";
 import CreateFolder from "./components/folders/CreateFolder";
+import ShareNote from "./components/notes/ShareNote";
 
 function App() {
 	return (
@@ -22,7 +23,7 @@ function App() {
 
 					<Route path="/user/folders/create" element={<CreateFolder />} />
 					<Route path="/user/notes/create" element={<CreateNote />} />
-
+					<Route path="/user/notes/share/:noteId" element={<ShareNote />} />
 					<Route path="/user/notes/:noteId" element={<EditNote />} />
 					<Route path="/user/notes/:noteId/edit" element={<EditNote />} />
 				</Routes>
