@@ -13,7 +13,7 @@
 		"@grammarly/editor-sdk-react": "^2.3.17",
 		"@types/react-router-dom": "^5.3.3",
 		"draft-js": "^0.11.7",
-		"firebase": "^10.14.0",
+		"firebase": "^11.2.0",
 		"html-to-draftjs": "^1.5.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
